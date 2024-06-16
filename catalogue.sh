@@ -4,7 +4,7 @@
 LOG_FILE="script_log.txt"
 
 # MongoDB server IP address variable
-MONGODB_SERVER_IPADDRESS="<MONGODB-SERVER-IPADDRESS>"
+MONGODB_SERVER_IPADDRESS="mongodb.3gb.online"
 
 # Function to log messages with date and time
 log_message() {
