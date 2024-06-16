@@ -4,7 +4,7 @@
 LOG_FILE="script_log.txt"
 
 # MongoDB server IP address variable
-MONGODB_SERVER_IPADDRESS="172.31.44.41"
+MONGODB_SERVER_IPADDRESS="<MONGODB-SERVER-IPADDRESS>"
 
 # Function to log messages with date and time
 log_message() {
@@ -47,12 +47,12 @@ perform_action "dnf module enable nodejs:18 -y" "Enabling Node.js 18 module"
 perform_action "dnf install nodejs -y" "Installing Node.js"
 
 # Add user and create application directory
-perform_action "useradd roboshop" "Creating user roboshop"
+perform_action "id -u roboshop &>/dev/null || useradd roboshop" "Creating user roboshop"
 perform_action "mkdir -p /app" "Creating /app directory"
 
 # Download and unzip the application
 perform_action "curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip" "Downloading catalogue application"
-perform_action "cd /app && unzip /tmp/catalogue.zip" "Unzipping catalogue application"
+perform_action "cd /app && unzip -o /tmp/catalogue.zip" "Unzipping catalogue application"
 perform_action "cd /app && npm install" "Installing application dependencies"
 
 # Create systemd service file for the catalogue service
@@ -74,6 +74,7 @@ EOL
 check_status $? "Catalogue service file creation"
 
 # Enable and start the catalogue service
+perform_action "systemctl daemon-reload" "Reloading systemd manager configuration"
 perform_action "systemctl enable catalogue" "Enabling catalogue service"
 perform_action "systemctl start catalogue" "Starting catalogue service"
 
@@ -89,7 +90,9 @@ EOL
 check_status $? "MongoDB repository file creation"
 
 # Run MongoDB schema setup
-perform_action "mongo --host $MONGODB_SERVER_IPADDRESS </app/schema/catalogue.js" "Setting up MongoDB schema"
+log_message "Setting up MongoDB schema"
+mongo --host $MONGODB_SERVER_IPADDRESS </app/schema/catalogue.js &>> "$LOG_FILE"
+check_status $? "Setting up MongoDB schema"
 
 log_message "Script finished"
 
