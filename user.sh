@@ -4,8 +4,8 @@
 LOG_FILE="user_service_setup_log.txt"
 
 # Redis and MongoDB server IP address variables
-REDIS_SERVER_IP="redis.3gb.online"
-MONGODB_SERVER_IP="mongodb.3gb.online"
+REDIS_SERVER_IP="<REDIS-SERVER-IP>"
+MONGODB_SERVER_IP="<MONGODB-SERVER-IP-ADDRESS>"
 
 # Function to log messages with date and time
 log_message() {
@@ -118,29 +118,22 @@ if [ ! -f /etc/yum.repos.d/mongo.repo ]; then
 name=MongoDB Repository
 baseurl=https://repo.mongodb.org/yum/redhat/\$releasever/mongodb-org/4.2/x86_64/
 gpgcheck=0
-OAOAOAenabled=1
+enabled=1
 EOL
     check_status $? "MongoDB repository file creation"
 else
     log_message "MongoDB repository file already exists"
 fi
-OAOAOA
+
 # Install MongoDB shell
 if ! rpm -q mongodb-org-shell &>/dev/null; then
-OAOAOA    perform_action "dnf install mongodb-org-shell -y" "Installing MongoDB shell"
-OAOAOAelse
+    perform_action "dnf install mongodb-org-shell -y" "Installing MongoDB shell"
+else
     log_message "MongoDB shell already installed"
-OAOAOAfi
-
-OAOAOA# Run MongoDB schema setup
-if ! mongo --host $MONGODB_SERVER_IP </app/schema/user.js &>/dev/null; then
-    perform_action "mongo --host $MONGODB_SERVER_IP </app/schema/user.js" "Setting up MongoDB schema"
-OAOAOAelse
-    log_message "MongoDB schema already set up"
 fi
 
-perform_action "systemctl daemon-reload" "Reloading systemd daemon again"
-perform_action "systemctl start user" "Starting user service again"
+# Run MongoDB schema setup
+perform_action "mongo --host $MONGODB_SERVER_IP </app/schema/user.js" "Setting up MongoDB schema"
 
 log_message "Script finished"
 
