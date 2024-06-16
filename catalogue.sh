@@ -89,6 +89,9 @@ enabled=1
 EOL
 check_status $? "MongoDB repository file creation"
 
+# Install MongoDB shell
+perform_action "dnf install mongodb-org-shell -y" "Installing MongoDB shell"
+
 # Run MongoDB schema setup
 log_message "Setting up MongoDB schema"
 mongo --host $MONGODB_SERVER_IPADDRESS </app/schema/catalogue.js &>> "$LOG_FILE"
