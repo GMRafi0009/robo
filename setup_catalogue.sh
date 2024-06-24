@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 0. Create variable for MongoDB server IP address
-MONGODB_SERVER_IPADDRESS="<MONGODB-SERVER-IPADDRESS>"
+MONGODB_SERVER_IPADDRESS="mongodb.3gb.online"
 
 # Step 1: Install NodeJS
 echo "Installing NodeJS..."
