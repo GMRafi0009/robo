@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # 0. Create variable for IP addresses
-REDIS_SERVER_IP="your-redis-server-ip"
-CATALOGUE_SERVER_IP="your-catalogue-server-ip"
+REDIS_SERVER_IP="redis.3gb.online"
+CATALOGUE_SERVER_IP="catalogue.3gb.online"
 
 # 1. Install NodeJS and enable version 18
 dnf install -y nodejs
