@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # 0. Create variables for IP addresses
-CART_SERVER_IP="<cart.3gb.online>"
-MYSQL_SERVER_IP="<mysql.3gb.online>"
+CART_SERVER_IP="cart.3gb.online"
+MYSQL_SERVER_IP="mysql.3gb.online"
 
 # 1. Install Maven
 dnf install maven -y
