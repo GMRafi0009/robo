@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Step 1: Assign variables for IP addresses
-CART_SERVER_IP="172.31.x.x"   # Replace with actual CART server IP
-MYSQL_SERVER_IP="172.31.x.x"  # Replace with actual MySQL server IP
+CART_SERVER_IP="cart.3gb.online"   # Replace with actual CART server IP
+MYSQL_SERVER_IP="mysql.3gb.online"  # Replace with actual MySQL server IP
 
 # Step 2: Install Maven
 dnf install maven -y
