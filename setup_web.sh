@@ -64,7 +64,7 @@ location /images/ {
 location /api/catalogue/ { proxy_pass http://catalogue.3gb.online:8080/; }
 location /api/user/ { proxy_pass http://user.3gb.online:8080/; }
 location /api/cart/ { proxy_pass http://cart.3gb.online:8080/; }
-location /api/shipping/ { proxy_pass http://localhost:8080/; }
+location /api/shipping/ { proxy_pass http://ship.3gb.online/; }
 location /api/payment/ { proxy_pass http://localhost:8080/; }
 
 location /health {
