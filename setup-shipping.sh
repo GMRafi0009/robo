@@ -1,29 +1,37 @@
 #!/bin/bash
 
-# 0. Create variables for IP addresses
-CART_SERVER_IP="cart.3gb.online"
-MYSQL_SERVER_IP="mysql.3gb.online"
+# Step 1: Assign variables for IP addresses
+CART_SERVER_IP="172.31.x.x"   # Replace with actual CART server IP
+MYSQL_SERVER_IP="172.31.x.x"  # Replace with actual MySQL server IP
 
-# 1. Install Maven
+# Step 2: Install Maven
 dnf install maven -y
 
-# 2. Add application user
+# Step 3: Add roboshop user
 useradd roboshop
 
-# 3. Setup an app directory
+# Step 4: Create application directory
 mkdir /app
 
-# 4. Download the application code to the created app directory & unzip
+# Step 5: Download the application code
 curl -L -o /tmp/shipping.zip https://roboshop-builds.s3.amazonaws.com/shipping.zip
+
+# Step 6: Navigate to the application directory
 cd /app
+
+# Step 7: Unzip the application code
 unzip /tmp/shipping.zip
 
-# 5. Download the dependencies at the app directory & build the application
+# Step 8: Navigate to the application directory (redundant, as already in /app)
 cd /app
+
+# Step 9: Build the application
 mvn clean package
+
+# Step 10: Move the built jar file
 mv target/shipping-1.0.jar shipping.jar
 
-# 6. Setup SystemD Shipping Service
+# Step 11: Create the systemd service file for Shipping
 cat <<EOF > /etc/systemd/system/shipping.service
 [Unit]
 Description=Shipping Service
@@ -39,19 +47,23 @@ SyslogIdentifier=shipping
 WantedBy=multi-user.target
 EOF
 
-# 7. Load and start the service
+# Step 13: Reload systemd manager configuration
 systemctl daemon-reload
 
-# 8. Enable and start the shipping service
+# Step 14: Enable the Shipping service
 systemctl enable shipping
+
+# Step 15: Start the Shipping service
 systemctl start shipping
 
-# 9. Install MySQL client
+# Step 16: Install MySQL
 dnf install mysql -y
 
-# 10. Load schema
+# Step 17: Load the schema into MySQL
 mysql -h ${MYSQL_SERVER_IP} -uroot -pRoboShop@1 < /app/schema/shipping.sql
 
-# 11. Restart the shipping service
+# Step 18: Restart the Shipping service
 systemctl restart shipping
+
+echo "Setup completed successfully."
 
